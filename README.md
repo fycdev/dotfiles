@@ -12,7 +12,9 @@ Development environment consists of:
 ### VS Code
 Download and install [VS Code](https://code.visualstudio.com/).
 
-Fix press and hold in VSCode with Vim
+Login with Github.
+
+Fix press and hold in VSCode with Vim.
 ```shell
 defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
 ```
