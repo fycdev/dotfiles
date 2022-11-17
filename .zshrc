@@ -1,4 +1,22 @@
-# Shell Prompt
+# Shell Configuration
+# Colors
+autoload -U colors
+export CLICOLOR=1
+
+# History
+HISTSIZE=0
+SAVEHIST=0
+SHELL_SESSIONS_DISABLE=1
+setopt sharehistory
+
+# Aliases
+alias lsaf="ls -AF"
+
+# Homebrew Paths
+export PATH=/opt/homebrew/bin:$PATH
+export PATH=/opt/homebrew/sbin:$PATH
+
+# Prompt
 # autoload -Uz vcs_info
 # autoload -Uz compinit && compinit -D
 # setopt prompt_subst
@@ -19,14 +37,3 @@
 # 	vcs_info
 # 	PROMPT=$'%B%* %F{cyan}%~%f %F{yellow}${vcs_info_msg_0_}%f\n%(!.%F{red}root %f.)%(?.%F{green}→%f.%F{red}→%f)%b '
 # }
-
-# Shell Configuration
-HISTSIZE=0
-SAVEHIST=0
-SHELL_SESSIONS_DISABLE=1
-setopt sharehistory
-
-alias lsaf="ls -AF"
-
-export PATH=/opt/homebrew/bin:$PATH
-export PATH=/opt/homebrew/sbin:$PATH
