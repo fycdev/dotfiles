@@ -80,6 +80,12 @@ brew cask install font-victor-mono
 ```
 _Note: May need to restart the OS in order for the OS to register the fonts._
 
+## ASDF
+### Install asdf plugins
+```shell
+asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+```
+
 ## Change default login shell
 Since `brew`'s version of `zsh` is a non-standard shell, we can add it to `/etc/shells` to make it "standard". Refer to `man chsh` for more information.
 ```shell
