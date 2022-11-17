@@ -89,6 +89,7 @@ _Note: May need to restart the OS in order for the OS to register the fonts._
 ### Install asdf plugins
 ```shell
 asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git
 ```
 
 ## Change default login shell
