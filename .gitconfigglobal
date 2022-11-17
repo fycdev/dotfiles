@@ -6,3 +6,7 @@
 	helper = osxkeychain
 [fetch]
 	prune = true
+[push]
+	default = current
+[commit]
+	template = ~/.gitmessage
