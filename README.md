@@ -1,4 +1,4 @@
-# Development Environment Setup
+# Development Environment Setup (Culture Amp)
 
 Quick setup guide for my personal development environment setup on M*-based Macs.
 
@@ -51,11 +51,15 @@ Make sure to update the local `user.email` for the dotfiles repository if differ
 git config user.email "INSERT GITHUB EMAIL"
 ```
 
-### Symlink `vim`, `zsh`
+### Symlink `vim`, `zsh`, `ruby`, `postgres`
 In the dotfiles directory:
 ```shell
 ln -sv $PWD/.vimrc ~
 ln -sv $PWD/.zshrc ~
+ln -sv $PWD/.gemrc ~
+ln -sv $PWD/.defaultgems ~
+ln -sv $PWD/.rspec ~
+ln -sv $PWD/.psqlrc ~
 ```
 
 ## Homebrew
