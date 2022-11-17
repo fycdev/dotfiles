@@ -15,6 +15,7 @@ alias lsaf="ls -AF"
 # Homebrew Paths
 export PATH=/opt/homebrew/bin:$PATH
 export PATH=/opt/homebrew/sbin:$PATH
+export HOMEBREW_PREFIX=/opt/homebrew
 
 # Prompt
 # autoload -Uz vcs_info
