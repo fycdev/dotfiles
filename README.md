@@ -6,7 +6,7 @@ Quick setup guide for my personal development environment setup on M*-based Macs
 Development environment consists of:
 - `VScode` (text editor)
 - `Warp` (terminal emulator)
-- `vim`, `zsh`, `git`, `n`, `yarn` (CLI tools)
+- `vim`, `zsh`, `git`, `asdf`, `yarn` (CLI tools)
 
 ## Desktop tools
 ### VS Code
@@ -51,23 +51,10 @@ Make sure to update the local `user.email` for the dotfiles repository if differ
 git config user.email "INSERT GITHUB EMAIL"
 ```
 
-### Configure `vim`
+### Symlink `vim`, `zsh`
 In the dotfiles directory:
 ```shell
 ln -sv $PWD/.vimrc ~
-```
-
-### Set permissions for `n`
-This is to prevent all the permission denied lines when working with different `node` versions.
-```shell
-sudo n lts # Ensure you install a version of n before proceeding
-sudo chown -R $(whoami) /usr/local/n /usr/local/bin /usr/local/lib /usr/local/include /usr/local/share
-```
-This does change the owner permissions to yourself which may not be ideal (for me I am the only user of my machine so it won't make much difference). May change it in future. Refer [here](https://github.com/tj/n#installation) on installing `n`.
-
-### Configure `zsh`
-In dotfiles directory:
-```shell
 ln -sv $PWD/.zshrc ~
 ```
 
@@ -80,17 +67,15 @@ Installation script
 ```
 Refer to [brew.sh](brew.sh) for more information and help.
 
-### Install additional useful taps
+### Install CLI tools
 ```shell
-brew tap homebrew/cask-fonts
-brew tap homebrew/cask-versions
+brew install vim zsh git asdf yarn
 ```
-`homebrew/cask-fonts` provides fonts to be installed and `homebrew/cask-versions` provides different versions of applications to be installed.
-
 
 ### Install the Victor Mono font
 I use the [Victor Mono](https://rubjo.github.io/victor-mono/) font for my terminal and editor. Although narrow, I find it to be quite readable. Plus it has support for programming ligatures which is nice to have.
 ```shell
+brew tap homebrew/cask-fonts
 brew cask install font-victor-mono
 ```
 _Note: May need to restart the OS in order for the OS to register the fonts._
