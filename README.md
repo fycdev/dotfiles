@@ -38,6 +38,7 @@ In the dotfiles directory:
 ```shell
 ln -sv $PWD/gitconfigglobal ~
 ln -sv $PWD/gitignoreglobal ~
+ln -sv $PWD/.gitmessage ~
 git config --global --unset include.path '.gitconfigglobal'
 git config --global --add include.path ~/.gitconfigglobal
 git config --global --unset core.excludesFile '.gitignoreglobal'
