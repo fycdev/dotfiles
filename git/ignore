@@ -1,0 +1,29 @@
+# General OSX files 
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Culture Amp files
+.bundle
+/.env
+db/*.sqlite3
+log/*.log
+rerun.txt
+tmp/**/*
+!tmp/cache/.keep
+.byebug_history
+.pryrc
+.overmind*.sock
+
+# Editor
+.vscode
+*.sw[nop]
