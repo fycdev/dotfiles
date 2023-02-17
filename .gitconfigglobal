@@ -1,8 +1,0 @@
-[core]
-	editor = vim
-[color]
-	ui = auto
-[credential]
-	helper = osxkeychain
-[fetch]
-	prune = true
