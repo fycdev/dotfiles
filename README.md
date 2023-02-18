@@ -2,64 +2,20 @@
 
 Quick setup guide for my personal development environment setup on M*-based Macs.
 
+
 ## Overview
-Development environment consists of:
-- `VScode` (text editor)
-- `Warp` (terminal emulator)
-- `vim`, `zsh`, `git`, `asdf`, `yarn` (CLI tools)
+Base development environment consists of:
+  - `alacritty` (terminal)
+  - `fish` (shell)
+  - `tmux` (terminal multiplexer)
+  - `neovim` (editor)
+  - `git` (source control)
+  - `asdf` (version manager)
 
-## Desktop tools
-### VS Code
-Download and install [VS Code](https://code.visualstudio.com/).
-
-Login with Github.
-
-Fix press and hold in VSCode with Vim.
-```shell
-defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
-```
-
-### Warp
-Download and install [Warp](https://warp.dev).
-
-## Dotfiles
-All dotfiles are located in the dotfiles repository and once cloned, the files are symlinked. Thus we can keep track of dotfile changes in one location.
-
-### Clone repository
-From the root directory:
-```shell
-mkdir ~/dev
-cd ~/dev
-git clone https://github.com/fycdev/dotfiles
-```
-
-### Configure `git`
-In the dotfiles directory:
-```shell
-ln -sv $PWD/gitconfigglobal ~
-ln -sv $PWD/gitignoreglobal ~
-git config --global --unset include.path '.gitconfigglobal'
-git config --global --add include.path ~/.gitconfigglobal
-git config --global --unset core.excludesFile '.gitignoreglobal'
-git config --global --add core.excludesFile ~/.gitignoreglobal
-git config --global user.name "INSERT NAME"
-git config --global user.email "INSERT EMAIL"
-```
-
-Make sure to update the local `user.email` for the dotfiles repository if different to global.
-```shell
-git config user.email "INSERT GITHUB EMAIL"
-```
-
-### Symlink `vim`, `zsh`
-In the dotfiles directory:
-```shell
-ln -sv $PWD/.vimrc ~
-ln -sv $PWD/.zshrc ~
-```
 
 ## Homebrew
 Pretty much an essential OSX package manager and necessary for setting the rest of the development environment.
+
 ### Install Homebrew
 Installation script
 ```shell
@@ -67,34 +23,54 @@ Installation script
 ```
 Refer to [brew.sh](brew.sh) for more information and help.
 
-### Install CLI tools
-```shell
-brew install vim zsh git asdf yarn
-```
-
-### Install the Victor Mono font
-I use the [Victor Mono](https://rubjo.github.io/victor-mono/) font for my terminal and editor. Although narrow, I find it to be quite readable. Plus it has support for programming ligatures which is nice to have.
+### Install brew packages
 ```shell
 brew tap homebrew/cask-fonts
-brew cask install font-victor-mono
+brew install alacritty fish git nvim tmux asdf font-anonymice-nerd-font
 ```
 _Note: May need to restart the OS in order for the OS to register the fonts._
 
-## ASDF
+
+## Dotfiles
+All dotfiles are located in the dotfiles repository and once cloned, the files are symlinked. Thus we can keep track of dotfile changes in one location.
+
+### Create directories and install dotfiles
+From `$HOME` (`~/`) directory:
+```shell
+mkdir dev .config
+cd ~/dev
+git clone https://github.com/fycdev/dotfiles
+cd dotfiles
+chmod +x setup.sh
+./setup.sh
+```
+
+### Configure `git`
+Create a filter to remove user name and email when staging.
+```shell
+echo '**/git/config filter=cleangitconfig' > .git/info/attributes
+git config --local filter.cleangitconfig.clean "sed -nE '/(name)|(email)/d'"
+git config --global user.email "INSERT GITHUB EMAIL"
+git config --global user.name "INSERT NAME"
+```
+_Note: Every time the dotfiles repository is pulled or checked out, name and email must be set again._
+
+
+## Change default login shell
+Since `fish` is a non-standard shell, we can add it to `/etc/shells` to make it "standard". Refer to `man chsh` for more information.
+```shell
+echo "/opt/homebrew/bin/fish" | sudo tee -a /etc/shells
+sudo chsh -s /opt/homebrew/bin/fish
+```
+_Note: need to restart in order to take effect._
+
+
+## asdf
 ### Install asdf plugins
 ```shell
 asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+asdf plugin add python https://github.com/asdf-community/asdf-python
+asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git
+asdf plugin add rust https://github.com/asdf-community/asdf-rust.git
 ```
-
-## Change default login shell
-Since `brew`'s version of `zsh` is a non-standard shell, we can add it to `/etc/shells` to make it "standard". Refer to `man chsh` for more information.
-```shell
-echo "/opt/homebrew/bin/zsh" | sudo tee -a /etc/shells
-```
-Change the login shell
-```shell
-sudo chsh -s /opt/homebrew/bin/zsh
-```
-_Note: need to restart in order to take effect. After restarting delete `.zsh_history` and `.zsh_sessions/` from root directory._
-
 
