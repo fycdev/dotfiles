@@ -1,0 +1,10 @@
+[core]
+	editor = nvim
+[color]
+	ui = auto
+[credential]
+	helper = osxkeychain
+[fetch]
+	prune = true
+[pull]
+  rebase = true

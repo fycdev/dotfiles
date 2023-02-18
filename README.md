@@ -49,7 +49,7 @@ chmod +x setup.sh
 Create a filter to remove user name and email when staging.
 ```shell
 echo '**/git/config filter=cleangitconfig' > .git/info/attributes
-git config --local filter.cleangitconfig.clean "sed -nE '/(name)|(email)/d'"
+git config --local filter.cleangitconfig.clean "sed -E '/(name)|(email)|\[user\]/d'"
 git config --global user.email "INSERT GITHUB EMAIL"
 git config --global user.name "INSERT NAME"
 ```
