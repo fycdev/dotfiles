@@ -1,5 +1,9 @@
+[user]
+  name = REPLACE_NAME
+  email = REPLACE_EMAIL
 [core]
 	editor = nvim
+	hooksPath = ~/.config/git/hooks
 [color]
 	ui = auto
 [credential]
