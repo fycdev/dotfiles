@@ -46,11 +46,14 @@ chmod +x setup.sh
 ```
 
 ### Configure `git`
-Create a filter to remove user name and email when staging.
+Create a git clean/smudge filter to replace user name and email, and organisation name and email, to keep dotfiles generic when pushed.
 ```shell
-echo '**/git/config filter=cleangitconfig' > .git/info/attributes
+echo '**/git/config filter=config' >> .git/info/attributes
+echo '**/git/hooks/pre-commit filter=precommit' >> .git/info/attributes
 git config --local filter.config.clean "sed -E -e 's/name = .*/name = REPLACE_NAME/' -e 's/email = .*/email = REPLACE_EMAIL/'"
 git config --local filter.config.smudge "sed -E -e 's/REPLACE_NAME/{INSERT GITHUB NAME}/' -e 's/REPLACE_EMAIL/{INSERT GITHUB EMAIL}/'"
+git config --local filter.precommit.clean "sed -E -e 's/ORG_NAME=.*/ORG_NAME=\"REPLACE_ORG_NAME\"/' -e 's/ORG_EMAIL=.*/ORG_EMAIL=\"REPLACE_ORG_EMAIL\"/'"
+git config --local filter.confprecommit.smudge "sed -E -e 's/=\"REPLACE_ORG_NAME\"/=\"{INSERT ORG NAME}\"/' -e 's/=\"REPLACE_ORG_EMAIL\"/=\"{INSERT ORG EMAIL}\"/'"
 git config --global user.email "INSERT GITHUB EMAIL"
 git config --global user.name "INSERT GITHUB NAME"
 ```
