@@ -1,0 +1,25 @@
+#!/bin/bash
+
+ORG_NAME="REPLACE_ORG_NAME"
+ORG_EMAIL="REPLACE_EMAIL"
+USER_NAME=$(git config --get user.name)
+USER_EMAIL=$(git config --get user.email)
+REMOTE_URL_ORIGIN=$(git remote get-url origin)
+
+if [[ $USER_NAME == "REPLACE_NAME" ]] || [[ $USER_EMAIL == "REPLACE_EMAIL" ]]
+then
+  echo "ERROR: Default user name or email is not configured."
+  exit 1
+fi
+
+# if [[ $ORG_NAME == "REPLACE_ORG_NAME" ]] || [[ $ORG_EMAIL == "REPLACE_ORG_EMAIL" ]]
+# then
+#   echo "ERROR: Fix pre-commit org name or email."
+#   exit 1
+# else
+#   if [[ $REMOTE_URL_ORIGIN == *$ORG_NAME* ]] && [[ ! $USER_EMAIL == *$ORG_EMAIL* ]]
+#   then
+#     echo "ERROR: incorrect email ($USER_EMAIL) for $REMOTE_URL_ORIGIN"
+#     exit 1
+#   fi
+# fi
