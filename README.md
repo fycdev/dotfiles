@@ -49,11 +49,11 @@ chmod +x setup.sh
 Create a filter to remove user name and email when staging.
 ```shell
 echo '**/git/config filter=cleangitconfig' > .git/info/attributes
-git config --local filter.cleangitconfig.clean "sed -E '/(name)|(email)|\[user\]/d'"
+git config --local filter.config.clean "sed -E -e 's/name = .*/name = REPLACE_NAME/' -e 's/email = .*/email = REPLACE_EMAIL/'"
+git config --local filter.config.smudge "sed -E -e 's/REPLACE_NAME/{INSERT GITHUB NAME}/' -e 's/REPLACE_EMAIL/{INSERT GITHUB EMAIL}/'"
 git config --global user.email "INSERT GITHUB EMAIL"
-git config --global user.name "INSERT NAME"
+git config --global user.name "INSERT GITHUB NAME"
 ```
-_Note: Every time the dotfiles repository is pulled or checked out, name and email must be set again._
 
 
 ## Change default login shell
