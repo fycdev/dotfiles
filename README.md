@@ -1,6 +1,6 @@
 # Development Environment Setup
 
-Quick setup guide for my personal development environment setup on M*-based Macs.
+Quick setup guide for my personal development environment setup on Apple Silicon Macs.
 
 
 ## Overview
@@ -11,6 +11,8 @@ Base development environment consists of:
   - `neovim` (editor)
   - `git` (source control)
   - `asdf` (version manager)
+
+The goal is to keep setup simple, lean, and generic.
 
 
 ## Homebrew
@@ -32,7 +34,7 @@ _Note: May need to restart the OS in order for the OS to register the fonts._
 
 
 ## Dotfiles
-All dotfiles are located in the dotfiles repository and once cloned, the files are symlinked. Thus we can keep track of dotfile changes in one location.
+All dotfiles are located in the dotfiles repository. Once the repository is cloned, `setup.sh` will symlink them to their corresponding directories. Thus we can keep track of dotfile changes in one location.
 
 ### Create directories and install dotfiles
 From `$HOME` (`~/`) directory:
@@ -46,14 +48,16 @@ chmod +x setup.sh
 ```
 
 ### Configure `git`
-Create a git clean/smudge filter to replace user name and email, and organisation name and email, to keep dotfiles generic when pushed.
+Optionally, create a git clean/smudge filter to replace user name and email, and organisation name and email, to keep dotfiles generic when pushed. Currently, this is a manual process.
 ```shell
 echo '**/git/config filter=config' >> .git/info/attributes
 echo '**/git/hooks/pre-commit filter=precommit' >> .git/info/attributes
 git config --local filter.config.clean "sed -E -e 's/name = .*/name = REPLACE_NAME/' -e 's/email = .*/email = REPLACE_EMAIL/'"
 git config --local filter.config.smudge "sed -E -e 's/REPLACE_NAME/{INSERT GITHUB NAME}/' -e 's/REPLACE_EMAIL/{INSERT GITHUB EMAIL}/'"
 git config --local filter.precommit.clean "sed -E -e 's/ORG_NAME=.*/ORG_NAME=\"REPLACE_ORG_NAME\"/' -e 's/ORG_EMAIL=.*/ORG_EMAIL=\"REPLACE_ORG_EMAIL\"/'"
-git config --local filter.confprecommit.smudge "sed -E -e 's/=\"REPLACE_ORG_NAME\"/=\"{INSERT ORG NAME}\"/' -e 's/=\"REPLACE_ORG_EMAIL\"/=\"{INSERT ORG EMAIL}\"/'"
+git config --local filter.precommit.smudge "sed -E -e 's/=\"REPLACE_ORG_NAME\"/=\"{INSERT ORG NAME}\"/' -e 's/=\"REPLACE_ORG_EMAIL\"/=\"{INSERT ORG EMAIL}\"/'"
+```
+```shell
 git config --global user.email "INSERT GITHUB EMAIL"
 git config --global user.name "INSERT GITHUB NAME"
 ```
@@ -65,7 +69,7 @@ Since `fish` is a non-standard shell, we can add it to `/etc/shells` to make it 
 echo "/opt/homebrew/bin/fish" | sudo tee -a /etc/shells
 sudo chsh -s /opt/homebrew/bin/fish
 ```
-_Note: need to restart in order to take effect._
+_Note: need to restart in order to take effect. Development environment should be ready afterwards._
 
 
 ## asdf
