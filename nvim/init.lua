@@ -25,6 +25,7 @@ require('paq') {
     'tpope/vim-commentary',
     'windwp/nvim-autopairs',
     -- functionality
+    'christoomey/vim-tmux-navigator',
     'rcarriga/nvim-notify',
     'folke/which-key.nvim',
     'folke/trouble.nvim',
@@ -281,6 +282,7 @@ vim.diagnostic.config({
 -- mason
 require('mason').setup()
 require('mason-lspconfig').setup()
+vim.keymap.set('n', '<leader>M', ':Mason', {desc = 'Open Mason'})
 
 -- cmp
 local cmp = require('cmp')
@@ -338,7 +340,7 @@ local on_attach = function(_, bufnr)
   vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, lsp_opts({desc = 'Code action'}))
 end
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-require('lspconfig')['sumneko_lua'].setup({ on_attach = on_attach, capabilities = capabilities })
+require('lspconfig')['lua_ls'].setup({ on_attach = on_attach, capabilities = capabilities })
 require('lspconfig')['html'].setup({ on_attach = on_attach, capabilities = capabilities })
 require('lspconfig')['cssls'].setup({ on_attach = on_attach, capabilities = capabilities })
 require('lspconfig')['tsserver'].setup({ on_attach = on_attach, capabilities = capabilities })
@@ -347,16 +349,11 @@ require('lspconfig')['tailwindcss'].setup({ on_attach = on_attach, capabilities 
 
 -- KEYMAPS
 vim.keymap.set('n', '<leader>S', ':so $MYVIMRC<CR>', { noremap = true, desc = 'Re-source config' })
+vim.keymap.set("n", "<C-A-l>", ":nohlsearch<CR>", { silent = true, desc = "Clear highlight" })
 
 -- better up/down
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-
--- Move to window using the <ctrl> hjkl keys
-vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
-vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
-vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
-vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
 
 -- Resize window using <ctrl> arrow keys
 vim.keymap.set("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
