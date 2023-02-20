@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ORG_NAME="REPLACE_ORG_NAME"
-ORG_EMAIL="REPLACE_EMAIL"
+ORG_EMAIL="REPLACE_ORG_EMAIL"
 USER_NAME=$(git config --get user.name)
 USER_EMAIL=$(git config --get user.email)
 REMOTE_URL_ORIGIN=$(git remote get-url origin)
