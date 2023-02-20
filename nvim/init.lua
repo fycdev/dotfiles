@@ -248,6 +248,7 @@ telescope.setup({
     lsp_type_definitions = { initial_mode = 'normal' },
     lsp_references = { initial_mode = 'normal' },
     lsp_implementations = { initial_mode = 'normal' },
+    find_files = { hidden = true },
   },
   extensions = {
     file_browser = {
