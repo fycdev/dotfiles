@@ -249,7 +249,10 @@ telescope.setup({
     lsp_type_definitions = { initial_mode = 'normal' },
     lsp_references = { initial_mode = 'normal' },
     lsp_implementations = { initial_mode = 'normal' },
-    find_files = { hidden = true },
+    find_files = {
+      hidden = true,
+      file_ignore_patterns = { ".git/.*" },
+    },
   },
   extensions = {
     file_browser = {
