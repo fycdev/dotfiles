@@ -33,6 +33,7 @@ require('paq') {
     'nvim-lualine/lualine.nvim',
     'lewis6991/gitsigns.nvim',
     'tpope/vim-fugitive',
+    'slim-template/vim-slim',
     { 'nvim-treesitter/nvim-treesitter', run = function() vim.cmd('TSUpdate') end },
     { 'nvim-telescope/telescope.nvim',   branch = '0.1.x' },
     { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
