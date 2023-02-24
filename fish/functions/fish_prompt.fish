@@ -10,7 +10,6 @@ function fish_prompt
 
   set -g __fish_git_prompt_showdirtystate 1
   set -g __fish_git_prompt_showuntrackedfiles 1
-  set -g __fish_git_prompt_showupstream 'auto'
   set -g __fish_git_prompt_char_dirtystate !
   set -g __fish_git_prompt_char_invalidstate ~
   set -g __fish_git_prompt_char_stagedstate +
