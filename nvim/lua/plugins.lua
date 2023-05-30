@@ -13,7 +13,14 @@ return {
     end,
   },
   -- LIB
-  "nvim-lua/plenary.nvim",
+  {
+    "nvim-lua/plenary.nvim",
+    lazy = true
+  },
+  {
+    "tpope/vim-repeat",
+    event = "VeryLazy"
+  },
   -- SEARCH
   {
     "nvim-telescope/telescope.nvim",
@@ -72,6 +79,7 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
+    event = { "BufReadPost", "BufNewFile" },
     main = "nvim-treesitter.configs",
     opts = {
       highlight = {
@@ -99,12 +107,21 @@ return {
       },
     },
   },
-  "slim-template/vim-slim",
-  "tpope/vim-repeat",
-  "tpope/vim-surround",
-  "tpope/vim-commentary",
+  {
+    "slim-template/vim-slim",
+    event = { "BufReadPost", "BufNewFile" }
+  },
+  {
+    "tpope/vim-surround",
+    event = "VeryLazy"
+  },
+  {
+    "tpope/vim-commentary",
+    event = "VeryLazy"
+  },
   {
     "windwp/nvim-autopairs",
+    event = "VeryLazy",
     config = true,
   },
   {
@@ -118,6 +135,7 @@ return {
       "hrsh7th/vim-vsnip",
       "windwp/nvim-autopairs",
     },
+    event = "InsertEnter",
     config = function()
       local cmp = require("cmp")
       local cmp_autopairs = require("nvim-autopairs.completion.cmp")
@@ -222,6 +240,7 @@ return {
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
     },
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       vim.diagnostic.config({
         virtual_text = false,
@@ -286,8 +305,10 @@ return {
   },
   {
     "jose-elias-alvarez/null-ls.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       "nvim-lua/plenary.nvim",
+      "jay-babu/mason-null-ls.nvim",
     },
     config = true,
   },
@@ -318,6 +339,7 @@ return {
   -- GIT
   {
     "lewis6991/gitsigns.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     opts = {
       current_line_blame = true,
       current_line_blame_opts = {
