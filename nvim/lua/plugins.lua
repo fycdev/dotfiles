@@ -15,11 +15,11 @@ return {
   -- LIB
   {
     "nvim-lua/plenary.nvim",
-    lazy = true
+    lazy = true,
   },
   {
     "tpope/vim-repeat",
-    event = "VeryLazy"
+    event = "VeryLazy",
   },
   -- SEARCH
   {
@@ -109,15 +109,15 @@ return {
   },
   {
     "slim-template/vim-slim",
-    event = { "BufReadPost", "BufNewFile" }
+    event = { "BufReadPost", "BufNewFile" },
   },
   {
     "tpope/vim-surround",
-    event = "VeryLazy"
+    event = "VeryLazy",
   },
   {
     "tpope/vim-commentary",
-    event = "VeryLazy"
+    event = "VeryLazy",
   },
   {
     "windwp/nvim-autopairs",
@@ -309,13 +309,24 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "jay-babu/mason-null-ls.nvim",
+      "lewis6991/gitsigns.nvim",
     },
-    config = true,
+    opts = function()
+      local null_ls = require("null-ls")
+      return {
+        sources = {
+          null_ls.builtins.code_actions.gitsigns,
+        },
+      }
+    end,
   },
   {
     "folke/trouble.nvim",
-    config = function()
-      require("trouble").setup()
+    opts = {
+      icons = false
+    },
+    config = function(_, opts)
+      require("trouble").setup(opts)
       vim.keymap.set(
         "n",
         "<leader>xx",
@@ -337,8 +348,10 @@ return {
     end,
   },
   -- GIT
+  { "tpope/vim-fugitive", event = "VeryLazy" },
   {
     "lewis6991/gitsigns.nvim",
+    dependencies = { "tpope/vim-fugitive" },
     event = { "BufReadPre", "BufNewFile" },
     opts = {
       current_line_blame = true,
