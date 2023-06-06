@@ -61,6 +61,7 @@ return {
       telescope.load_extension("file_browser")
       telescope.load_extension("fzf")
 
+      vim.keymap.set("n", "<leader>fr", telescope_builtin.resume, { desc = "Resume Telescope", silent = true })
       vim.keymap.set("n", "<leader>ff", telescope_builtin.find_files, { desc = "Find files", silent = true })
       vim.keymap.set("n", "<leader>fg", telescope_builtin.git_files, { desc = "Find files (git)", silent = true })
       vim.keymap.set("n", "<leader>fs", telescope_builtin.live_grep, { desc = "Live grep", silent = true })
@@ -267,7 +268,6 @@ return {
           vim.keymap.set("n", "gs", vim.lsp.buf.signature_help, lsp_opts({ desc = "Signature help" }))
           vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, lsp_opts({ desc = "Rename" }))
           vim.keymap.set("n", "<F4>", vim.lsp.buf.code_action, lsp_opts({ desc = "Code Action" }))
-          vim.keymap.set("x", "<F4>", vim.lsp.buf.range_code_action, lsp_opts({ desc = "Code Action" }))
           vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, lsp_opts({ desc = "Format" }))
           vim.keymap.set("n", "gl", vim.diagnostic.open_float, lsp_opts({ desc = "Open diagnostics" }))
           vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, lsp_opts({ desc = "Next diagnostic" }))
@@ -369,4 +369,5 @@ return {
     end,
     config = true,
   },
+  "christoomey/vim-tmux-navigator"
 }
