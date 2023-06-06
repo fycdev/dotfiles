@@ -1,7 +1,7 @@
 #!/bin/bash
 
 config_folders=(
-  'alacritty'
+  'kitty'
   'fish'
   'git'
   'nvim'

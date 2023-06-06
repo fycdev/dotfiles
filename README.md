@@ -5,7 +5,7 @@ Quick setup guide for my personal development environment setup on Apple Silicon
 
 ## Overview
 Base development environment consists of:
-  - `alacritty` (terminal)
+  - `kitty` (terminal)
   - `fish` (shell)
   - `tmux` (terminal multiplexer)
   - `neovim` (editor)
@@ -28,7 +28,7 @@ Refer to [brew.sh](brew.sh) for more information and help.
 ### Install brew packages
 ```shell
 brew tap homebrew/cask-fonts
-brew install alacritty fish git nvim tmux asdf font-anonymice-nerd-font
+brew install kitty fish git nvim tmux asdf font-anonymous-pro font-symbols-only-nerd-font
 ```
 _Note: May need to restart the OS in order for the OS to register the fonts._
 
