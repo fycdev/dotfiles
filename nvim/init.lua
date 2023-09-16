@@ -40,6 +40,7 @@ require("paq") {
   },
   -- lsp
   -- ui
+  "goolord/alpha-nvim",
   "nvim-lualine/lualine.nvim",
   "folke/which-key.nvim",
   "lewis6991/gitsigns.nvim",
@@ -141,6 +142,18 @@ telescope.setup({
 telescope.load_extension("file_browser")
 telescope.load_extension("fzf")
 
+-- alpha-nvim
+local dashboard = require("alpha.themes.dashboard")
+dashboard.section.buttons.val = {
+  dashboard.button( "e", "  > New file" , ":ene<CR>"),
+  dashboard.button( "f", "󰈞  > Find files", ":Telescope find_files<CR>"),
+  dashboard.button( "u", "  > Update plugins" , ":Paq sync"),
+  dashboard.button( "q", "󰅚  > Quit", ":qa<CR>"),
+}
+local version = vim.version()
+dashboard.section.footer.val = "v" .. version.major .. "." .. version.minor .. "." .. version.patch
+require("alpha").setup(dashboard.opts)
+
 -- lualine
 local custom_gruvbox = require("lualine.themes.gruvbox-material")
 custom_gruvbox.normal.c.bg = "nil"
@@ -151,18 +164,17 @@ custom_gruvbox.command.c.bg = "nil"
 custom_gruvbox.inactive.c.bg = "nil"
 require("lualine").setup({
   options = {
+    disabled_filetypes = {"help", "alpha"},
     theme = custom_gruvbox,
     icons_enabled = true,
     globalstatus = true,
     component_separators = "",
-    section_separators = { left = '', right = '' }
+    section_separators = { left = '', right = '' },
   },
   sections = {
     lualine_a = {{
       "mode",
-      separator = {
-        left = ''
-      },
+      separator = { left = '' },
       padding = { left = 1, right = 2 }
     }},
     lualine_b = {{
@@ -173,13 +185,8 @@ require("lualine").setup({
     lualine_c = {"filename"},
     lualine_x = {"searchcount"},
     lualine_y = {{
-      "encoding",
-      padding = { left = 1, right = 0 }
-    },
-    {
       "filetype",
       colored = false,
-      icon_only = true,
       padding = { left = 1, right = 2 }
     }},
     lualine_z = {{
