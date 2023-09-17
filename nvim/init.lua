@@ -68,7 +68,7 @@ vim.opt.showcmd = false
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.scrolloff = 16
-vim.opt.shortmess = "aS"
+vim.opt.shortmess = "aoOFSW"
 vim.opt.foldcolumn = "auto"
 vim.opt.fillchars = "eob: "
 
