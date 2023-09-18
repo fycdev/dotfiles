@@ -21,13 +21,13 @@ require("paq") {
 	"savq/paq",
   -- colorscheme
   "sainnhe/gruvbox-material",
+  -- ui
+  "christoomey/vim-tmux-navigator",
+  "goolord/alpha-nvim",
+  "nvim-lualine/lualine.nvim",
+  "lewis6991/gitsigns.nvim",
+  "folke/which-key.nvim",
   -- editor
-  {
-    "nvim-treesitter/nvim-treesitter",
-    run = function()
-      require("nvim-treesitter.install").update({ with_sync = true })
-    end
-  },
   "echasnovski/mini.comment",
   "echasnovski/mini.pairs",
   "echasnovski/mini.surround",
@@ -38,13 +38,25 @@ require("paq") {
     "nvim-telescope/telescope-fzf-native.nvim",
     run = "make"
   },
+  -- treesitter
+  {
+    "nvim-treesitter/nvim-treesitter",
+    run = function()
+      require("nvim-treesitter.install").update({ with_sync = true })
+    end
+  },
   -- lsp
-  -- ui
-  "goolord/alpha-nvim",
-  "nvim-lualine/lualine.nvim",
-  "folke/which-key.nvim",
-  "lewis6991/gitsigns.nvim",
-  "christoomey/vim-tmux-navigator",
+  "neovim/nvim-lspconfig",
+  "williamboman/mason.nvim",
+  "williamboman/mason-lspconfig.nvim",
+  -- autocompletion
+  "hrsh7th/nvim-cmp",
+  "hrsh7th/cmp-nvim-lsp",
+  "hrsh7th/cmp-buffer",
+  "hrsh7th/cmp-path",
+  "hrsh7th/cmp-cmdline",
+  "L3MON4D3/LuaSnip",
+  "saadparwaiz1/cmp_luasnip",
   -- lib
   "nvim-lua/plenary.nvim",
   "nvim-tree/nvim-web-devicons",
@@ -80,68 +92,7 @@ vim.g.gruvbox_material_foreground = "original"
 vim.cmd("colorscheme gruvbox-material")
 
 
--- PLUGIN CONFIGURATIONS
--- treesitter
-require("nvim-treesitter.configs").setup({
-  highlight = { enable = true },
-  auto_install = true,
-  ensure_installed = {
-    "vim",
-    "vimdoc",
-    "lua",
-    "query",
-    "c",
-    "regex",
-    "bash",
-    "fish",
-  }
-})
-
--- mini.comment
-require("mini.comment").setup()
-
--- mini.pairs
-require("mini.pairs").setup()
-
--- mini.surround
-require("mini.surround").setup({
-  mappings = {
-    add = "ys",
-    delete = "ds",
-    replace = "cs"
-  }
-})
-
--- telescope
-local telescope = require("telescope")
-local telescope_builtin = require("telescope.builtin")
-telescope.setup({
-  defaults = {
-    sorting_strategy = "ascending",
-    layout_config = {
-      prompt_position = "top",
-    },
-  },
-  pickers = {
-    find_files = {
-      hidden = true,
-      file_ignore_patterns = { "^.git/", "%.lock" },
-    },
-  },
-  extensions = {
-    file_browser = {
-      hijack_netrw = true,
-      initial_mode = "normal",
-      hidden = true,
-      grouped = true,
-      respect_gitignore = false,
-      path = "%:p:h",
-    },
-  }
-})
-telescope.load_extension("file_browser")
-telescope.load_extension("fzf")
-
+-- UI
 -- alpha-nvim
 local dashboard = require("alpha.themes.dashboard")
 dashboard.section.buttons.val = {
@@ -201,11 +152,6 @@ require("lualine").setup({
   }
 })
 
--- which-key
-vim.opt.timeout = true
-vim.opt.timeoutlen = 300
-require("which-key").setup()
-
 -- gitsigns
 require("gitsigns").setup({
   current_line_blame = true,
@@ -214,10 +160,208 @@ require("gitsigns").setup({
   }
 })
 
+-- which-key
+vim.opt.timeout = true
+vim.opt.timeoutlen = 300
+require("which-key").setup()
+
+
+-- EDITOR
+-- mini.comment
+require("mini.comment").setup()
+
+-- mini.pairs
+require("mini.pairs").setup()
+
+-- mini.surround
+require("mini.surround").setup({
+  mappings = {
+    add = "ys",
+    delete = "ds",
+    replace = "cs"
+  }
+})
+
+
+-- SEARCH
+-- telescope
+local telescope = require("telescope")
+local telescope_builtin = require("telescope.builtin")
+telescope.setup({
+  defaults = {
+    sorting_strategy = "ascending",
+    layout_config = {
+      prompt_position = "top",
+    },
+  },
+  pickers = {
+    find_files = {
+      hidden = true,
+      file_ignore_patterns = { "^.git/" },
+    },
+    live_grep = {
+      hidden = true,
+      file_ignore_patterns = { "^.git/", "%.lock" },
+    },
+  },
+  extensions = {
+    file_browser = {
+      hijack_netrw = true,
+      initial_mode = "normal",
+      hidden = true,
+      grouped = true,
+      respect_gitignore = false,
+      path = "%:p:h",
+    },
+  }
+})
+telescope.load_extension("file_browser")
+telescope.load_extension("fzf")
+
+
+-- TREESITTER
+require("nvim-treesitter.configs").setup({
+  highlight = { enable = true },
+  auto_install = true,
+  ensure_installed = {
+    "vim",
+    "vimdoc",
+    "lua",
+    "query",
+    "c",
+    "regex",
+    "bash",
+    "fish",
+    "html",
+    "css",
+    "javascript",
+    "typescript",
+    "tsx",
+    "json",
+    "ruby",
+    "yaml",
+    "markdown",
+  }
+})
+
+
+-- LSP
+local lsp_defaults = require("lspconfig").util.default_config
+lsp_defaults.capabilities = vim.tbl_deep_extend(
+  "force",
+  lsp_defaults.capabilities,
+  require("cmp_nvim_lsp").default_capabilities()
+)
+
+require("mason").setup()
+require("mason-lspconfig").setup({
+  ensure_installed = {
+    "lua_ls",
+    "html",
+    "cssls",
+    "tailwindcss",
+    "tsserver",
+    "eslint",
+    "jsonls"
+  }
+})
+require("mason-lspconfig").setup_handlers({
+  function (server_name)
+      require("lspconfig")[server_name].setup({})
+  end,
+  ["lua_ls"] = function ()
+    require("lspconfig").lua_ls.setup({
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { "vim" }
+          }
+        }
+      }
+    })
+  end
+})
+
+
+-- AUTOCOMPLETION
+local cmp = require("cmp")
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      require("luasnip").lsp_expand(args.body)
+    end,
+  },
+  completion = {
+    completeopt = "menu,menuone,noinsert",
+  },
+  formatting = {
+    fields = { "menu", "abbr", "kind" },
+    format = function(entry, item)
+      local menu_icon = {
+        nvim_lsp = "L",
+        vsnip = "V",
+        buffer = "B",
+        path = "P",
+      }
+      item.menu = menu_icon[entry.source.name]
+      return item
+    end,
+  },
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
+  mapping = cmp.mapping.preset.insert({
+    ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-d>"] = cmp.mapping.scroll_docs(4),
+    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-e>"] = cmp.mapping.abort(),
+    ["<CR>"] = cmp.mapping.confirm({ select = true }),
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      local col = vim.fn.col('.') - 1
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+        fallback()
+      else
+        cmp.complete()
+      end
+    end, {'i', 's'}),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        fallback()
+      end
+    end, {'i', 's'}),
+  }),
+  sources = cmp.config.sources({
+    { name = "nvim_lsp" },
+    { name = "luasnip" },
+    { name = "buffer" },
+    { name = "path" },
+  }),
+})
+
+cmp.setup.cmdline({ "/", "?" }, {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = "buffer" }
+  }),
+})
+
+cmp.setup.cmdline(":", {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = "path" },
+    { name = "cmdline" }
+  }),
+})
+
 
 -- KEYMAPS
-vim.keymap.set("n", "<leader>S", ":so $MYVIMRC<CR>", { noremap = true, desc = "Source configuration" })
-vim.keymap.set("n", "<C-A-l>", ":nohlsearch<CR>", { silent = true, desc = "Clear highlight" })
+vim.keymap.set("n", "<leader>S", "<cmd>so $MYVIMRC<CR>", { noremap = true, desc = "Source configuration" })
+vim.keymap.set("n", "<C-A-l>", "<cmd>nohlsearch<CR>", { silent = true, desc = "Clear highlight" })
 
 -- up/down 
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -234,8 +378,8 @@ vim.keymap.set("n", "<C-A-k>", "<cmd>m .-2<cr>==", { desc = "Move up" })
 vim.keymap.set("n", "<C-A-j>", "<cmd>m .+1<cr>==", { desc = "Move down" })
 vim.keymap.set("i", "<C-A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
 vim.keymap.set("i", "<C-A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
-vim.keymap.set("v", "<C-A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
-vim.keymap.set("v", "<C-A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
+vim.keymap.set("v", "<C-A-k>", "<cmd>m '<-2<cr>gv=gv", { desc = "Move up" })
+vim.keymap.set("v", "<C-A-j>", "<cmd>m '>+1<cr>gv=gv", { desc = "Move down" })
 
 -- windows
 vim.keymap.set("n", "<leader>ww", "<C-W>p", { desc = "Other window" })
@@ -266,3 +410,30 @@ vim.keymap.set("n", "<leader>fg", telescope_builtin.git_files, { desc = "Find fi
 vim.keymap.set("n", "<leader>fs", telescope_builtin.live_grep, { desc = "Live grep", silent = true })
 vim.keymap.set("n", "<leader>fb", telescope_builtin.buffers, { desc = "Find buffers", silent = true })
 vim.keymap.set( "n", "<leader>fd", telescope.extensions.file_browser.file_browser, { desc = "Open file browser", silent = true })
+
+-- lsp
+vim.api.nvim_create_autocmd("LspAttach", {
+  desc = "LSP Actions",
+  callback = function()
+    local lsp_opts = function(t)
+      local bufopts = { noremap = true, silent = true, buffer = true }
+      for k, v in pairs(t) do
+        bufopts[k] = v
+      end
+      return bufopts
+    end
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, lsp_opts({ desc = "Hover information" }))
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, lsp_opts({ desc = "Definition" }))
+    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, lsp_opts({ desc = "Declaration" }))
+    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, lsp_opts({ desc = "Implementation" }))
+    vim.keymap.set("n", "go", vim.lsp.buf.type_definition, lsp_opts({ desc = "Type definitions" }))
+    vim.keymap.set("n", "gr", vim.lsp.buf.references, lsp_opts({ desc = "References" }))
+    vim.keymap.set("n", "gs", vim.lsp.buf.signature_help, lsp_opts({ desc = "Signature help" }))
+    vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, lsp_opts({ desc = "Rename" }))
+    vim.keymap.set("n", "<F4>", vim.lsp.buf.code_action, lsp_opts({ desc = "Code Action" }))
+    vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, lsp_opts({ desc = "Format" }))
+    vim.keymap.set("n", "gl", vim.diagnostic.open_float, lsp_opts({ desc = "Open diagnostics" }))
+    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, lsp_opts({ desc = "Next diagnostic" }))
+    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, lsp_opts({ desc = "Previos diagnostic" }))
+  end,
+})
