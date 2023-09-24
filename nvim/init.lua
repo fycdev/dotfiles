@@ -60,10 +60,11 @@ require("paq")({
 	"williamboman/mason-lspconfig.nvim",
 	"mfussenegger/nvim-lint",
 	"stevearc/conform.nvim",
-	"slim-template/vim-slim",
 	-- lib
 	"nvim-lua/plenary.nvim",
 	"nvim-tree/nvim-web-devicons",
+  -- misc
+	"slim-template/vim-slim",
 })
 
 -- VIM OPTIONS
@@ -96,10 +97,24 @@ vim.cmd("colorscheme gruvbox-material")
 -- UI
 -- alpha-nvim
 local dashboard = require("alpha.themes.dashboard")
+dashboard.section.header.val = {
+	"                                                     ",
+	"                                                     ",
+	"                                                     ",
+	"  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
+	"  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
+	"  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ",
+	"  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ",
+	"  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
+	"  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
+	"                                                     ",
+	"                                                     ",
+	"                                                     ",
+}
 dashboard.section.buttons.val = {
 	dashboard.button("e", "  > New file", ":ene<CR>"),
 	dashboard.button("f", "󰈞  > Find files", ":Telescope find_files<CR>"),
-	dashboard.button("u", "  > Update plugins", ":PaqSync | :TSUpdate | :MasonUpdate<CR>"),
+	dashboard.button("u", "  > Update plugins", ":PaqSync<CR>"),
 	dashboard.button("q", "󰅚  > Quit", ":qa<CR>"),
 }
 local version = vim.version()
@@ -287,6 +302,10 @@ telescope.setup({
 		live_grep = {
 			hidden = true,
 			file_ignore_patterns = { "^.git/", "%.lock" },
+		},
+		oldfiles = {
+			hidden = true,
+			only_cwd = true,
 		},
 		lsp_definitions = {
 			jump_type = "never",
@@ -477,11 +496,11 @@ vim.keymap.set(
 )
 
 -- telescope
-vim.keymap.set("n", "<leader>fr", telescope_builtin.resume, { desc = "Resume Telescope", silent = true })
+vim.keymap.set("n", "<leader>fx", telescope_builtin.resume, { desc = "Resume Telescope", silent = true })
 vim.keymap.set("n", "<leader>ff", telescope_builtin.find_files, { desc = "Find files", silent = true })
-vim.keymap.set("n", "<leader>fg", telescope_builtin.git_files, { desc = "Find files (git)", silent = true })
 vim.keymap.set("n", "<leader>fs", telescope_builtin.live_grep, { desc = "Live grep", silent = true })
 vim.keymap.set("n", "<leader>fb", telescope_builtin.buffers, { desc = "Find buffers", silent = true })
+vim.keymap.set("n", "<leader>fr", telescope_builtin.oldfiles, { desc = "Find recent files", silent = true })
 vim.keymap.set(
 	"n",
 	"<leader>fd",
@@ -512,6 +531,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "<leader>cf", "<cmd>Format<CR>", lsp_opts({ desc = "Format" }))
 		vim.keymap.set("n", "gl", vim.diagnostic.open_float, lsp_opts({ desc = "Open diagnostics" }))
 		vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, lsp_opts({ desc = "Next diagnostic" }))
-		vim.keymap.set("n", "]d", vim.diagnostic.goto_next, lsp_opts({ desc = "Previos diagnostic" }))
+		vim.keymap.set("n", "]d", vim.diagnostic.goto_next, lsp_opts({ desc = "Previous diagnostic" }))
 	end,
 })
