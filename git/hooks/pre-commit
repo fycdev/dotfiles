@@ -25,3 +25,7 @@ else
     exit 1
   fi
 fi
+
+if [ -x ./.git/hooks/pre-commit ]; then
+    ./.git/hooks/pre-commit "$@"
+fi
