@@ -34,11 +34,9 @@ function tdev
       tmux neww -t $name -n 'shell'
       tmux splitw -t $name:2
       tmux splitw -t $name:2
-      tmux splitw -t $name:2
       tmux selectl -t $name:2 tiled
       tmux selectp -t $name:2.1
       tmux selectw -t $name:1
-      tmux send -t $name:1.1 'nvim' C-m
     end
   end
 
