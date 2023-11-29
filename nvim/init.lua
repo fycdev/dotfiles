@@ -31,6 +31,7 @@ require("paq")({
 	"echasnovski/mini.comment",
 	"echasnovski/mini.pairs",
 	"echasnovski/mini.surround",
+	"windwp/nvim-ts-autotag",
 	-- autocompletion
 	"hrsh7th/nvim-cmp",
 	"hrsh7th/cmp-nvim-lsp",
@@ -63,7 +64,7 @@ require("paq")({
 	-- lib
 	"nvim-lua/plenary.nvim",
 	"nvim-tree/nvim-web-devicons",
-  -- misc
+	-- misc
 	"slim-template/vim-slim",
 })
 
@@ -151,7 +152,7 @@ require("lualine").setup({
 			padding = { left = 2, right = 1 },
 			icons_enabled = true,
 		} },
-		lualine_c = { "filename" },
+		lualine_c = { { "filename", path = 1 } },
 		lualine_x = { "searchcount" },
 		lualine_y = { {
 			"filetype",
@@ -306,15 +307,19 @@ telescope.setup({
 		oldfiles = {
 			hidden = true,
 			only_cwd = true,
+			initial_mode = "normal",
 		},
 		lsp_definitions = {
 			jump_type = "never",
+			initial_mode = "normal",
 		},
 		lsp_implementations = {
 			jump_type = "never",
+			initial_mode = "normal",
 		},
 		lsp_type_definitions = {
 			jump_type = "never",
+			initial_mode = "normal",
 		},
 	},
 	extensions = {
@@ -333,6 +338,7 @@ telescope.load_extension("fzf")
 
 -- TREESITTER
 require("nvim-treesitter.configs").setup({
+	autotag = { enable = true },
 	highlight = { enable = true },
 	auto_install = true,
 	ensure_installed = {
@@ -353,6 +359,7 @@ require("nvim-treesitter.configs").setup({
 		"ruby",
 		"yaml",
 		"markdown",
+		"go",
 	},
 })
 
@@ -421,6 +428,7 @@ require("conform").setup({
 		typescript = { "prettier" },
 		javascriptreact = { "prettier" },
 		typescriptreact = { "prettier" },
+		ruby = { "standardrb" },
 	},
 })
 
